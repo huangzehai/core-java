@@ -4,7 +4,7 @@ public class JoinTest {
 	public static void main(String[] args) {
 		Thread thread = new Thread(() -> {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 System.out.println("end thread");
             } catch (InterruptedException e) {
                 e.printStackTrace();
