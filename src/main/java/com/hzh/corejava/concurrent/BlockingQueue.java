@@ -3,15 +3,15 @@ package com.hzh.corejava.concurrent;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BlockingQueue {
-    private List queue = new LinkedList();
+public class BlockingQueue<T> {
+    private List<T> queue = new LinkedList<>();
     private int limit = 10;
 
     public BlockingQueue(int limit) {
         this.limit = limit;
     }
 
-    public synchronized void enqueue(Object item)
+    public synchronized void enqueue(T item)
             throws InterruptedException {
         while (this.queue.size() == this.limit) {
             wait();
@@ -20,11 +20,12 @@ public class BlockingQueue {
         if (this.queue.size() == 0) {
             notifyAll();
         }
+        System.out.println("Add " + item);
         this.queue.add(item);
     }
 
 
-    public synchronized Object dequeue()
+    public synchronized T dequeue()
             throws InterruptedException {
         while (this.queue.size() == 0) {
             wait();
@@ -34,6 +35,7 @@ public class BlockingQueue {
             notifyAll();
         }
 
+        System.out.println("Remove item");
         return this.queue.remove(0);
     }
 
