@@ -1,15 +1,17 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.blockingqueue;
+
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by lenovo on 2017/2/14.
  */
-public class BlockingQueueExample {
+public class BlockingQueueExample2 {
     public static void main(String[] args) {
-        BlockingQueue<Integer> blockingQueue = new BlockingQueue<>(10);
+        java.util.concurrent.BlockingQueue<Integer> blockingQueue = new LinkedBlockingQueue<>(10);
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < 20; i++) {
                 try {
-                    blockingQueue.enqueue(i);
+                    blockingQueue.put(i);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -21,7 +23,7 @@ public class BlockingQueueExample {
                 //Let thread 1 run first.
                 Thread.sleep(100);
                 for (int i = 0; i < 20; i++) {
-                    blockingQueue.dequeue();
+                    blockingQueue.take();
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

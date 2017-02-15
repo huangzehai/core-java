@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.blockingqueue;
 
 import java.util.LinkedList;
 import java.util.List;
