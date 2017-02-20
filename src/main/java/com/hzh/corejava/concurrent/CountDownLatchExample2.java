@@ -2,6 +2,7 @@ package com.hzh.corejava.concurrent;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -12,12 +13,13 @@ class CountDownLatchExample2 { // ...
 
     public static void main(String[] args) throws InterruptedException {
         CountDownLatch doneSignal = new CountDownLatch(N);
-        Executor e = Executors.newFixedThreadPool(3);
+        ExecutorService e = Executors.newFixedThreadPool(3);
 
         for (int i = 0; i < N; ++i) // create and start threads
             e.execute(new WorkerRunnable(doneSignal, i));
 
         doneSignal.await();           // wait for all to finish
+        e.shutdown();
         System.out.println("Done all jobs");
     }
 }
