@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.forkjoin;
 
 import java.util.Random;
 import java.util.concurrent.ForkJoinPool;

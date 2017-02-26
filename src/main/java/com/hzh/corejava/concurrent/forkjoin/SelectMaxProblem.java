@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.forkjoin;
 
 /**
  * Created by huangzehai on 2017/2/25.
