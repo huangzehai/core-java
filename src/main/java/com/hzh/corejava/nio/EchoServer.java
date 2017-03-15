@@ -48,6 +48,7 @@ public class EchoServer {
                     buffer.flip();
                     client.write(buffer);
                     buffer.clear();
+                    client.close();
                 }
                 iter.remove();
             }
