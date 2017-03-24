@@ -23,6 +23,19 @@ public class Apple {
         this.weight = weight;
     }
 
+    public Apple() {
+
+    }
+
+    public Apple(double weight) {
+        this.weight = weight;
+    }
+
+    public Apple(String color, double weight) {
+        this.color = color;
+        this.weight = weight;
+    }
+
     @Override
     public String toString() {
         return "Apple{" +
