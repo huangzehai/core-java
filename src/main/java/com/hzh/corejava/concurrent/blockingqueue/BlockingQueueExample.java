@@ -5,7 +5,7 @@ package com.hzh.corejava.concurrent.blockingqueue;
  */
 public class BlockingQueueExample {
     public static void main(String[] args) {
-        BlockingQueue<Integer> blockingQueue = new BlockingQueue<>(10);
+        IBlockingQueue<Integer> blockingQueue = new IBlockingQueue<>(10);
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < 20; i++) {
                 try {

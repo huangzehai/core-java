@@ -3,11 +3,11 @@ package com.hzh.corejava.concurrent.blockingqueue;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BlockingQueue<T> {
+public class IBlockingQueue<T> {
     private List<T> queue = new LinkedList<>();
     private int limit = 10;
 
-    public BlockingQueue(int limit) {
+    public IBlockingQueue(int limit) {
         this.limit = limit;
     }
 
