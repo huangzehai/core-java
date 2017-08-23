@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.join;
 
 /**
  * Created by huangzehai on 2017/2/13.

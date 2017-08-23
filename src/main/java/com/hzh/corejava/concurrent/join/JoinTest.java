@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent;
+package com.hzh.corejava.concurrent.join;
 
 public class JoinTest {
 	public static void main(String[] args) {
