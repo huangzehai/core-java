@@ -62,7 +62,7 @@ public class NioServer {
                     client.configureBlocking(false);
 
                     // Operation-set bit for read operations
-                    client.register(selector, SelectionKey.OP_READ );
+                    client.register(selector, SelectionKey.OP_READ);
                     log("Connection Accepted: " + client.getLocalAddress() + "\n");
 
                     // Tests whether this key's channel is ready for reading
@@ -75,11 +75,16 @@ public class NioServer {
 
                     log("Message received: " + result);
 
-                    if (result.equals("Crunchify")) {
-                        client.close();
-                        log("\nIt's time to close connection as we got last company name 'Crunchify'");
+                    if (result.equals("End")) {
+                        log("\nIt's time to close connection as we got last company name 'End'");
                         log("\nServer will keep running. Try running client again to establish new connection");
+                        client.register(selector, SelectionKey.OP_WRITE);
                     }
+                } else if (myKey.isWritable()) {
+                    SocketChannel client = (SocketChannel) myKey.channel();
+                    //Response
+                    client.write(ByteBuffer.wrap("Got it".getBytes()));
+                    client.close();
                 }
                 iterator.remove();
             }

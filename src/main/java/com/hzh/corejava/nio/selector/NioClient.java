@@ -20,11 +20,20 @@ public class NioClient {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        InetSocketAddress crunchifyAddr = new InetSocketAddress("localhost", Constants.PORT);
-        SocketChannel client = SocketChannel.open(crunchifyAddr);
+        InetSocketAddress socketAddress = new InetSocketAddress("localhost", Constants.PORT);
+        SocketChannel client = SocketChannel.open(socketAddress);
 
         logger.info("Connecting to Server on port {}", Constants.PORT);
 
+        sentRequest(client);
+
+        //发送完成后读取响应
+        processResponse(client);
+
+        client.close();
+    }
+
+    private static void sentRequest(SocketChannel client) throws IOException, InterruptedException {
         ArrayList<String> companyDetails = new ArrayList<>();
 
         // create a ArrayList with companyName list
@@ -32,7 +41,7 @@ public class NioClient {
         companyDetails.add("Twitter");
         companyDetails.add("IBM");
         companyDetails.add("Google");
-        companyDetails.add("Tencent");
+        companyDetails.add("End");
 
         for (String companyName : companyDetails) {
             byte[] message = new String(companyName).getBytes();
@@ -45,7 +54,19 @@ public class NioClient {
             // wait for 2 seconds before sending next message
             Thread.sleep(1000);
         }
-        client.close();
+    }
+
+    private static void processResponse(SocketChannel client) throws IOException {
+        //Get response
+        ByteBuffer buffer = ByteBuffer.allocate(48);
+        int bytesRead = client.read(buffer);
+        if (bytesRead != Constants.END_OF_FILE) {
+            buffer.flip();
+            byte[] lineBytes = new byte[bytesRead];
+            buffer.get(lineBytes, 0, bytesRead);
+            String line = new String(lineBytes);
+            logger.info(line);
+        }
     }
 
 }

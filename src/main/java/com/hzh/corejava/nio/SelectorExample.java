@@ -129,6 +129,8 @@ public class SelectorExample extends Thread {
             while (buffer.hasRemaining()) {
                 System.out.print((char) buffer.get());
             }
+
+            //Response
             socketChannel.write(ByteBuffer.wrap("Got it".getBytes()));
             buffer.clear();
             bytesRead = socketChannel.read(buffer);
