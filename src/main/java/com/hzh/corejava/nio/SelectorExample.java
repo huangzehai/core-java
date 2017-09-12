@@ -1,11 +1,13 @@
 package com.hzh.corejava.nio;
 
+import com.hzh.corejava.constant.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
@@ -27,7 +29,7 @@ public class SelectorExample extends Thread {
             e.printStackTrace();
         }
         try {
-            Thread.sleep(3000);
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,8 +79,8 @@ public class SelectorExample extends Thread {
     @Override
     public void run() {
         try {
-            //建立Channel并绑定到9000端口
-            channel = ServerSocketChannel.open().bind(new InetSocketAddress(9000));
+            //建立Channel并绑定到5000端口
+            channel = ServerSocketChannel.open().bind(new InetSocketAddress(Constants.PORT));
             selector = Selector.open();
             channel.configureBlocking(false);
             channel.register(selector, SelectionKey.OP_ACCEPT);
@@ -92,18 +94,44 @@ public class SelectorExample extends Thread {
                     SelectionKey key = keyIterator.next();
                     if (key.isAcceptable()) {
                         // a connection was accepted by a ServerSocketChannel.
+                        logger.info("accept");
+                        processRequest();
                     } else if (key.isConnectable()) {
                         // a connection was established with a remote server.
                     } else if (key.isReadable()) {
                         // a channel is ready for reading
                     } else if (key.isWritable()) {
                         // a channel is ready for writing
+                        logger.info("write");
                     }
                     keyIterator.remove();
                 }
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
+        }
+    }
+
+    /**
+     * Process client request.
+     *
+     * @throws IOException
+     */
+    private void processRequest() throws IOException {
+        SocketChannel socketChannel = channel.accept();
+        ByteBuffer buffer = ByteBuffer.allocate(48);
+
+        //Get Request
+        int bytesRead = socketChannel.read(buffer);
+        //
+        while (bytesRead != Constants.END_OF_FILE) {
+            buffer.flip();
+            while (buffer.hasRemaining()) {
+                System.out.print((char) buffer.get());
+            }
+            socketChannel.write(ByteBuffer.wrap("Got it".getBytes()));
+            buffer.clear();
+            bytesRead = socketChannel.read(buffer);
         }
     }
 }
