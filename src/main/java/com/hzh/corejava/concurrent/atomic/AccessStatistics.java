@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent.atom;
+package com.hzh.corejava.concurrent.atomic;
 
 public class AccessStatistics {
     private final int noPages, noErrors;

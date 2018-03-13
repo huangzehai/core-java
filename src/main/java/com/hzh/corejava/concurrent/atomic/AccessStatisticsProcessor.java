@@ -1,4 +1,4 @@
-package com.hzh.corejava.concurrent.atom;
+package com.hzh.corejava.concurrent.atomic;
 
 import java.util.concurrent.atomic.AtomicReference;
 

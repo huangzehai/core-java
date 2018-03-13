@@ -1,15 +1,17 @@
-package com.hzh.corejava.concurrent.atom;
+package com.hzh.corejava.concurrent.atomic;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
-public class AtomicCounter {
+public class AtomicReferenceExample {
+
+
     public static void main(String[] args) {
-        AtomicInteger count = new AtomicInteger(0);
+
         ExecutorService pool = Executors.newFixedThreadPool(2);
         int nThreads = 100;
+        AccessStatisticsProcessor processor = new AccessStatisticsProcessor();
         for (int index = 0; index < nThreads; index++) {
             pool.submit(() -> {
                 try {
@@ -17,7 +19,7 @@ public class AtomicCounter {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                count.incrementAndGet();
+                processor.incrementPageCount(true);
             });
         }
         pool.shutdown();
@@ -26,6 +28,10 @@ public class AtomicCounter {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(count.get());
+
+        System.out.println(processor.getStats());
+
     }
+
+
 }
