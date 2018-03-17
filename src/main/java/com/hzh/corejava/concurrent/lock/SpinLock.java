@@ -2,7 +2,7 @@ package com.hzh.corejava.concurrent.lock;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SpinLock {
+public class SpinLock implements Lock {
 
     private AtomicReference<Thread> sign = new AtomicReference<>();
 

@@ -7,14 +7,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-
-public class SpinLockCounterTest {
+public class ConcurrentCounterTest {
     @Test
     public void increase() throws Exception {
         ExecutorService pool = Executors.newFixedThreadPool(2);
         int nThreads = 100;
-        SpinLockCounter counter = new SpinLockCounter();
+        ConcurrentCounter counter = new ConcurrentCounter();
         for (int i = 0; i < nThreads; i++) {
             pool.submit(() -> {
                 counter.increase();

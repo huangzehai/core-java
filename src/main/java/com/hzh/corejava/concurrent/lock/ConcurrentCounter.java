@@ -1,8 +1,8 @@
 package com.hzh.corejava.concurrent.lock;
 
-public class SpinLockCounter {
+public class ConcurrentCounter {
 
-    private SpinLock lock = new SpinLock();
+    private Lock lock = new CLHLock();
     private int value = 0;
 
     public void increase() {
