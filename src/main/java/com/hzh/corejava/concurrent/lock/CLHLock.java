@@ -19,13 +19,16 @@ public class CLHLock implements Lock {
      */
     private static final ThreadLocal<CLHNode> LOCAL = new ThreadLocal<>();
 
+    /**
+     * 线程尾部更新器
+     */
     private static final AtomicReferenceFieldUpdater<CLHLock, CLHNode> UPDATER = AtomicReferenceFieldUpdater.newUpdater(CLHLock.class, CLHNode.class, "tail");
 
     public void lock() {
         //当前线程请求所，isLocked 默认值已设置为true
         CLHNode node = new CLHNode();
         LOCAL.set(node);
-        //队列尾部的锁为当前线程锁依赖的锁
+        //队列尾部的锁为当前线程依赖的锁
         CLHNode preNode = UPDATER.getAndSet(this, node);
         if (preNode != null) {
             while (preNode.isLocked) {
