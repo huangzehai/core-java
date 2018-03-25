@@ -5,17 +5,19 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class CompletableFutureExample {
     private static final Logger logger = LoggerFactory.getLogger(CompletableFutureExample.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
 //        runAsync();
 //
 //        completedFutureExample();
-        completeExceptionallyExample();
+//        completeExceptionallyExample();
+        thenCompose();
     }
 
     private static void runAsync() {
@@ -65,5 +67,43 @@ public class CompletableFutureExample {
         }
         Object result = exceptionHandler.join();
         System.out.println(result);
+    }
+
+    private static void thenCompose() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> completableFuture1 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Select best trip plan for airline ");
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //返回结果
+            return "Best airlines";
+        });
+
+
+        completableFuture1.thenCombine(CompletableFuture.supplyAsync(() -> {
+            return "5Star";
+        }), (a, b) -> {
+            System.out.println("airline：" + a);
+            System.out.println("hotel:" + b);
+            return "best hotels";
+        });
+
+        //等待completableFuture1完成后再执行
+        CompletableFuture<String> completableFuture2 = completableFuture1.thenCompose(result -> CompletableFuture.supplyAsync(() -> {
+            System.out.println(result);
+            System.out.println("car hire");
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //返回结果
+            return "best case";
+        }));
+
+        System.out.println(completableFuture2.get());
+
     }
 }
