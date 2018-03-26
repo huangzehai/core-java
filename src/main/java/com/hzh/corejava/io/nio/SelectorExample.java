@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class SelectorExample extends Thread {
     private Logger logger = LoggerFactory.getLogger(SelectorExample.class);
-    private ServerSocketChannel channel;
+    private ServerSocketChannel serverSocketChannel;
     private Selector selector;
     private volatile boolean running = false;
 
@@ -42,9 +42,9 @@ public class SelectorExample extends Thread {
 
     public void stopServer() {
         running = false;
-        if (this.channel != null) {
+        if (this.serverSocketChannel != null) {
             try {
-                this.channel.close();
+                this.serverSocketChannel.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -80,10 +80,10 @@ public class SelectorExample extends Thread {
     public void run() {
         try {
             //建立Channel并绑定到5000端口
-            channel = ServerSocketChannel.open().bind(new InetSocketAddress(Constants.PORT));
+            serverSocketChannel = ServerSocketChannel.open().bind(new InetSocketAddress(Constants.PORT));
             selector = Selector.open();
-            channel.configureBlocking(false);
-            channel.register(selector, SelectionKey.OP_ACCEPT);
+            serverSocketChannel.configureBlocking(false);
+            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             running = true;
             while (running) {
                 int readyChannels = selector.select();
@@ -118,7 +118,7 @@ public class SelectorExample extends Thread {
      * @throws IOException
      */
     private void processRequest() throws IOException {
-        SocketChannel socketChannel = channel.accept();
+        SocketChannel socketChannel = serverSocketChannel.accept();
         ByteBuffer buffer = ByteBuffer.allocate(48);
 
         //Get Request
