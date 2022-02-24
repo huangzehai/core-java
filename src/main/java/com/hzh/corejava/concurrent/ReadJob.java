@@ -1,12 +1,9 @@
 package com.hzh.corejava.concurrent;
 
-import com.sun.istack.internal.NotNull;
-
 /**
  * Created by Adam on 2016/2/23.
  */
 public class ReadJob implements Runnable {
-    @NotNull
     private Counter counter;
 
     public ReadJob(Counter counter){
