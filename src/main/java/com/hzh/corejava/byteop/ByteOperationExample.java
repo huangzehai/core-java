@@ -3,6 +3,10 @@ package com.hzh.corejava.byteop;
 public class ByteOperationExample {
     public static void main(String[] args) {
         System.out.println(add2(9, 233));
+
+        int num = 8;
+        System.out.println(num ^ num ^ num ^ num ^ num ^ num);
+        System.out.println(5 / 2);
     }
 
     private static int add(int a, int b) {
