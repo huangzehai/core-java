@@ -1,10 +1,13 @@
 package com.hzh.corejava.concurrent.forkjoin;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
 import java.util.concurrent.RecursiveTask;
 
+@Slf4j
 public class CountTask extends RecursiveTask<Integer> {
     private static final int THRESHOLD = 2;//阈值
     private int start;
@@ -43,16 +46,17 @@ public class CountTask extends RecursiveTask<Integer> {
     }
 
     public static void main(String[] args) {
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
         //生成一个计算任务，负责计算1+2+3+4
         CountTask task = new CountTask(1, 4);
         //执行一个任务
         Future result = forkJoinPool.submit(task);
         try {
-            System.out.println(result.get());
+            log.info("result is: {}", result.get());
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 }
